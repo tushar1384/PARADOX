@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/gotham');
+        
+        body {
+            font-family: 'Gotham Black', sans-serif;
+            text-align: center;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            font-size: 32px;
+            letter-spacing: 1.5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            width: 40%;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        input {
+            width: 85%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 90%;
+            padding: 14px;
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 15px 0;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #218838, #28a745);
+            transform: translateY(-3px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Create Account</h1>
+    <div class="container">
+        <h2>Fill in Your Details</h2>
+        <input type="text" id="name" placeholder="Enter Name">
+        <input type="text" id="mobile" placeholder="Enter Mobile Number">
+        <input type="date" id="dob" placeholder="Enter Date of Birth">
+        <input type="password" id="password" placeholder="Set Password">
+        <button onclick="createAccount()">➕ Create Account</button>
+        <button onclick="location.href='index.html'" style="background: #dc3545;">🔙 Back to Login</button>
+    </div>
+
+    <script>
+        function createAccount() {
+            let name = document.getElementById("name").value;
+            let mobile = document.getElementById("mobile").value;
+            let dob = document.getElementById("dob").value;
+            let password = document.getElementById("password").value;
+            let userKey = `${name}_${mobile}_${dob}`;
+            let accounts = JSON.parse(localStorage.getItem("accounts")) || {};
+            
+            if (accounts[userKey]) {
+                alert(`✅ Account Already Exists! Your Account Number: ${accounts[userKey].accno}`);
+                localStorage.setItem("currentUser", JSON.stringify(accounts[userKey]));
+                return;
+            }
+            
+            if (name && mobile && dob && password) {
+                let accno = Math.floor(100000000000 + Math.random() * 900000000000).toString();
+                accounts[userKey] = { name, mobile, dob, balance: 0, password, accno };
+                localStorage.setItem("accounts", JSON.stringify(accounts));
+                localStorage.setItem("currentUser", JSON.stringify(accounts[userKey]));
+                alert(`🎉 Account Created! Your Account Number: ${accno}`);
+            } else {
+                alert("⚠️ Please enter all details correctly.");
+            }
+        }
+    </script>
+</body>
+</html>

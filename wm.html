@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw Money</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/gotham');
+        
+        body {
+            font-family: 'Gotham Black', sans-serif;
+            text-align: center;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #ff5733, #ff914d);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            font-size: 32px;
+            letter-spacing: 1.5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            width: 40%;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        input {
+            width: 85%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 90%;
+            padding: 14px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 15px 0;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #c82333, #dc3545);
+            transform: translateY(-3px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Withdraw Money</h1>
+    <div class="container">
+        <h2>Enter Withdrawal Details</h2>
+        <input type="number" id="accno" placeholder="Enter Account Number">
+        <input type="number" id="amount" placeholder="Enter Amount">
+        <button onclick="withdrawMoney()">💵 Withdraw</button>
+        <br>
+        <button onclick="location.href='index.html'" style="background: #007bff;">🏠 Back to Home</button>
+    </div>
+
+    <script>
+        function withdrawMoney() {
+            let accno = document.getElementById("accno").value;
+            let amount = parseFloat(document.getElementById("amount").value);
+            let accounts = JSON.parse(localStorage.getItem("accounts")) || {};
+            
+            if (accounts[accno]) {
+                if (accounts[accno].balance >= amount) {
+                    accounts[accno].balance -= amount;
+                    localStorage.setItem("accounts", JSON.stringify(accounts));
+                    alert("✅ Withdrawal Successful!");
+                } else {
+                    alert("⚠️ Insufficient funds");
+                }
+            } else {
+                alert("⚠️ Account not found");
+            }
+        }
+    </script>
+</body>
+</html>
